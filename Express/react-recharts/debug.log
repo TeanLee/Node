@@ -1,0 +1,6 @@
+[0307/190932:ERROR:renderer_main.cc(203)] Running without renderer sandbox
+[0307/190932:ERROR:backend_impl.cc(2001)] Invalid cache (current) size
+[0307/190932:ERROR:cache_util_win.cc(20)] Unable to move the cache: 5
+[0307/190932:ERROR:cache_util.cc(132)] Unable to move cache folder C:\Users\ting\AppData\Local\Tencent\Minibrowser\UserData to C:\Users\ting\AppData\Local\Tencent\Minibrowser\old_UserData_000
+[0307/190932:ERROR:cache_creator.cc(133)] Unable to create cache
+[0307/190936:ERROR:child_discardable_shared_memory_manager.cc(266)] size: 4194304
