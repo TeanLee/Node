@@ -1,0 +1,16 @@
+{
+  "name": "mogoose",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "TeanLee <ltt59625763@qq.com> (https://teanlee.github.io/qs_js_lesson/)",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.5.0",
+    "mongoose": "^5.0.10"
+  }
+}
