@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  props:['floorData','floorTitle'],
+  props: ['floorData', 'floorTitle'],
   data() {
     return {
       floorData0: {},
