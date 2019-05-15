@@ -1,6 +1,6 @@
 <template>
  <div>
-    <!--search bar layout-->
+  <!--search bar layout-->
   <div class="search-bar">
     <van-row>
       <van-col span="3" class="location-icon"><van-icon name="search" /></van-col>
@@ -38,7 +38,7 @@
           <div class="recommend-item">
             <img :src="item.image" width="80%" />
             <div>{{item.goodsName}}</div>
-            <div>￥{{item.price}} (￥{{item.mallPrice}})</div>
+            <div>￥{{item.price}}(￥{{item.mallPrice}})</div>
           </div>
         </swiper-slide>
       </swiper>
@@ -48,6 +48,24 @@
   <floorComponent :floorData="floor1" :floorTitle="floorName.floor1"></floorComponent>
   <floorComponent :floorData="floor2" :floorTitle="floorName.floor2"></floorComponent>
   <floorComponent :floorData="floor3" :floorTitle="floorName.floor3"></floorComponent>
+  <!--Hot Area-->
+  <div class="hot-area">
+    <div class="hot-title">热卖商品</div>
+    <div class="hot-goods">
+      <van-list>
+        <van-row gutter="20">
+          <van-col span="12" v-for="(item, index) in hotGoods" :key="index">
+            <goods-info
+              :goodsId="item.goodsId"
+              :goodsImage="item.image"
+              :goodsName="item.name"
+              :goodsPrice="item.price">
+            </goods-info>
+          </van-col>
+        </van-row>
+      </van-list>
+    </div>
+  </div>
  </div>
 </template>
 
@@ -56,13 +74,14 @@ import axios from 'axios';
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import floorComponent from '../component/floorComponent';
-import { toMoney } from '@/filter/moneyFilter.js';
+import goodsInfo from '../component/goodsInfoComponent';
 
 export default {
   components: {
     swiper,
     swiperSlide,
     floorComponent,
+    goodsInfo,
   },
   created() {
     axios({
@@ -80,6 +99,7 @@ export default {
           this.floor2 = response.data.data.floor2;
           this.floor3 = response.data.data.floor3;
           this.floorName = response.data.data.floorName;
+          this.hotGoods = response.data.data.hotGoods; // 热卖商品
         }
       });
   },
@@ -96,13 +116,9 @@ export default {
       floor2: [],
       floor3: [],
       floorName: {}, // 楼层名
+      hotGoods: [], // 热卖商品
     };
   },
-  filters: {
-    moneyFilter(money) {
-      return toMoney(money);
-    } 
-  }
 };
 </script>
 
@@ -195,5 +211,11 @@ export default {
 }
 .floor-rule div:nth-child(odd){
   border-right: 1px solid #ddd;
+}
+.hot-area{
+  text-align: center;
+  font-size:14px;
+  height: 1.8rem;
+  line-height:1.8rem;
 }
 </style>
