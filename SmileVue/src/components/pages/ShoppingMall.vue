@@ -56,6 +56,7 @@ import axios from 'axios';
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import floorComponent from '../component/floorComponent';
+import { toMoney } from '@/filter/moneyFilter.js';
 
 export default {
   components: {
@@ -97,6 +98,11 @@ export default {
       floorName: {}, // 楼层名
     };
   },
+  filters: {
+    moneyFilter(money) {
+      return toMoney(money);
+    } 
+  }
 };
 </script>
 
