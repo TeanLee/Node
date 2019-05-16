@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const db = 'mongodb://localhost/simle-db';
+// node的glob模块允许你使用 * 等符号，来写一个glob规则，像在shell里一样，获取匹配对应规则文件。
+const glob = require('glob');
+const { resolve } = require('path');
 
 mongoose.Promise = global.Promise;
 
@@ -47,4 +50,9 @@ exports.connect = () => {
       resolve();
     });
   });
+};
+
+// 一次性引入所有的Schema文件了
+exports.initSchemas = () => {
+  glob.sync(resolve(__dirname, './schema/', '**/*.js')).forEach(require);
 };
