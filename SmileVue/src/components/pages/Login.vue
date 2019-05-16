@@ -43,6 +43,12 @@ export default {
       passwordErrorMsg: '',
     };
   },
+  created() {
+    if (localStorage.userInfo) {
+      Toast.success('您已经登录过啦！');
+      this.$router.push('/');
+    }
+  },
   methods: {
     // 验证表单之后向后端发送请求进行登录
     loginAction() {
@@ -50,6 +56,8 @@ export default {
     },
     // 用户登录方法
     loginUser() {
+      // 先把按钮设置成灰色，防止重复提交
+      this.openLoading = true;
       axios({
         url: url.loginUser,
         method: 'post',
@@ -61,7 +69,19 @@ export default {
         console.log(res);
         // 如果返回 code 为 200，代表登录成功
         if (res.data.code === 200) {
-          Toast.success('登录成功');
+          // 把登录状态保存在本地
+          new Promise((resolve, reject) => {
+            localStorage.userInfo = { username: this.username };
+            setTimeout(() => {
+              resolve();
+            }, 500);
+          }).then(() => {
+            Toast.success('登录成功');
+            this.$router.push('/');
+          }).catch(() => {
+            Toast.fail('登录状态保存失败');
+            console.log(err);
+          });
         } else {
           Toast.fail('登录失败');
           this.openLoading = false;
