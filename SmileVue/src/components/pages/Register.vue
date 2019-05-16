@@ -89,6 +89,23 @@ export default {
       }
       return isOk;
     },
+    // 验证表单信息
+    checkForm() {
+      let isOk = true;
+      if (this.username.length < 5){
+        this.usernameErrorMsg = '用户名不能小于5位';
+        isOk = false;
+      } else {
+        this.usernameErrorMsg = '';
+      }
+      if (this.password.length < 6){
+        this.passwordErrorMsg= '密码不能少于6位';
+        isOk= false;
+      } else {
+        this.passwordErrorMsg = '';
+      }
+      return isOk;
+    },
     goBack() {
       this.$router.go(-1);
     },
