@@ -2,7 +2,7 @@
 const Router = require('koa-router');
 const mongoose = require('mongoose');
 
-let router = new Router();
+const router = new Router();
 
 router.get('/', async (ctx) => {
   ctx.body = '这是用户操作首页';
@@ -30,5 +30,39 @@ router.post('/register', async (ctx) => {
     };
   });
 });
+
+// 登录
+router.post('/login', async (ctx) => {
+  const loginUser = ctx.request.body;
+  console.log('loginBody', loginUser);
+  const username = loginUser.username;
+  const password = loginUser.password;
+  // 引入 User 的 model
+  const User = mongoose.model('User');
+  await User.findOne({ username }).exec().then(async (result) => {
+    console.log(result);
+    if (result) {
+      // console.log(User)
+      // 当用户名存在时，开始比对密码
+      const newUser = new User(); // 因为是实例方法，所以要new出对象，才能调用
+      await newUser.comparePassword(password, result.password)
+        .then((isMatch) => {
+          // 返回比对结果
+          ctx.body = { code: 200, message: isMatch };
+        })
+        .catch((error) => {
+          // 出现异常，返回异常
+          console.log(error);
+          ctx.body = { code: 500, message: '用户名或密码错误' };
+        });
+    } else {
+      ctx.body = { code: 200, message: '用户名不存在' };
+    }
+  }).catch((error) => {
+    console.log(error);
+    ctx.body = { code: 500, message: error };
+  });
+});
+
 
 module.exports = router;

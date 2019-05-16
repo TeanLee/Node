@@ -13,5 +13,15 @@ const userSchema = new Schema({
   lastLoginAt: { type: Date, default: Date.now() },
 });
 
+userSchema.methods = {
+  // 密码对比方法
+  comparePassword: (_password, password) => {
+    return new Promise((resolve, reject) => {
+      if (_password === password) resolve();
+      reject();
+    });
+  },
+};
+
 // 发布模型
 mongoose.model('User', userSchema);
