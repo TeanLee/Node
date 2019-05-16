@@ -14,13 +14,16 @@
 
       <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" required/>
       <div class="register-button">
-        <van-button type="primary" size="large">马上注册</van-button>
+        <van-button type="primary" @click="registerUser" size="large">马上注册</van-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import url from '@/serviceAPI.config.js';
+
 export default {
   data() {
     return {
@@ -29,6 +32,21 @@ export default {
     };
   },
   methods: {
+    // 用户注册方法
+    registerUser() {
+      axios({
+        url: url.registerUser,
+        method: 'post',
+        data: {
+          username: this.username,
+          password: this.password,
+        }
+      }).then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
+      })
+    },
     goBack() {
       this.$router.go(-1);
     },
