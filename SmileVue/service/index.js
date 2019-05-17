@@ -44,3 +44,8 @@ const user = require('./appApi/user.js');
 const router = new Router();
 router.use('/user', user.routes());
 app.use(router.routes()).use(router.allowedMethods());
+
+// 引入 goods 模块
+const goods = require('./appApi/goods.js');
+
+router.use('/goods', goods.routes());
