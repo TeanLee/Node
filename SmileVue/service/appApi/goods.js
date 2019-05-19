@@ -6,6 +6,7 @@ const fs = require('fs');
 const app = new Koa();
 const router = new Router();
 
+// 批量插入商品详情数据到MongoDB中
 router.get('/insertAllGoodsInfo', async (ctx) => {
   fs.readFile('../json_data/goods.json', 'utf8', (err, data) => {
     data = JSON.parse(data);
@@ -21,7 +22,25 @@ router.get('/insertAllGoodsInfo', async (ctx) => {
       });
     });
   });
-  ctx.body="开始导入数据"
+  ctx.body = '开始导入数据';
+});
+
+// 商品大类的Shema建立和导入数据库
+router.get('insertAllCategory', async (ctx) => {
+  fs.readFile('../json_data/category.json', 'utf8', (err, data) => {
+    data = JSON.parse(data);
+    let saveCount = 0;
+    const Category = mongoose.model('Category');
+    data.RECORDS.each((value, index) => {
+      const newCategory = new Category(value);
+      newCategory.save().then(() => {
+        saveCount++;
+      }).catch((error)=>{
+        console.log(`失败${error}`);
+      });
+    });
+  });
+  ctx.body = '开始导入数据';
 });
 
 module.exports = router;
